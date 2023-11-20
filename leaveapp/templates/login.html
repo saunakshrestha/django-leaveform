@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock navbar %}
+{% block form %}
+{% load crispy_forms_tags %}
+<h2 class="text-center mt-3 ">Leave Application Form</h2>
+{% comment %} messages errors shown {% endcomment %}
+{% if messages %}
+    <div class="text-center messages">
+    {% for message in messages %}
+        <div class="p-0 m-0 alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-warning{% endif %}" role="alert">
+        <div class="font-italic">{{ message }}</div>
+        </div>
+    {% endfor %}
+    </div>
+{% endif %}
+{% comment %} form container {% endcomment %}
+    <div class="container mt-5">
+    <form method="post" class="my-class">
+        {% csrf_token %}
+        {{ login_form|crispy }}
+    <button class="btn btn-primary">Submit</button>
+    </form>
+    </div>
+{% endblock form %}

@@ -6,19 +6,12 @@ class LeaveRequestForm(forms.ModelForm):
     class Meta:
         model = LeaveRequest
         fields = [
-            'name',
             'department',
             'designation',
             'leave_from',
             'leave_to',
             'purpose_of_leave',
         ]
-    
-    name = forms.CharField(
-    label='Name',
-    max_length=30,
-    widget=forms.TextInput(attrs={'placeholder': 'Enter your full name:'})
-    )
     designation = forms.CharField(max_length=30)
     department = forms.ChoiceField(
         choices=LeaveRequest.DEPARTMENT_CHOICES
@@ -36,3 +29,13 @@ class LeaveRequestForm(forms.ModelForm):
         if leave_from > leave_to :
             raise forms.ValidationError("Error:'Leave from' date cannot be in future to 'Leave to' date.")
         return cleaned_data
+    
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=30)
+    password = forms.CharField(max_length=30,widget=forms.PasswordInput)
+    def clean(self):
+        cleaned_data = super().clean()
+        username = cleaned_data.get("username")
+        password = cleaned_data.get("password")
+        return cleaned_data
+
