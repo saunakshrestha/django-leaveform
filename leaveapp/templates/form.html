@@ -4,7 +4,9 @@
 {% endblock navbar %}
 {% block form %}
 {% load crispy_forms_tags %}
-<h2 class="text-center mt-3 ">Leave Application Form</h2>
+
+<div class="container form-custom mt-5 shadow-lg p-5 form-container">
+<h3 class="text-center  ">Leave Application Form</h3>
 {% comment %} messages errors shown {% endcomment %}
 {% if messages %}
     <div class="text-center messages">
@@ -16,11 +18,14 @@
     </div>
 {% endif %}
 {% comment %} form container {% endcomment %}
-<div class="container mt-5">
-<form method="post" class="my-class">
+<form method="post" class="">
     {% csrf_token %}
+    <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" class="form-control" id="name" placeholder="{{request.user.username}} "disabled>
+    </div>
     {{ post_form|crispy }}
-<button class="btn btn-primary">Submit</button>
+<button class="btn btn-primary mt-2">Submit</button>
 </form>
 </div>
 {% endblock form %}

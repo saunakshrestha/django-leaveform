@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+
+
+:root {
+    --font-primary : 'Lato',sans-serif;
+    --color-white : #FBFBFB;
+    --color-powder_blue : #8DA9C4;
+    --color-yale_blue : #134074;
+    --color-berkeley_blue : #13315C;
+    --color-oxford_blue : #0B2545;
+}
+
+* {
+    font-family: var(--font-primary);
+    
+}
+
+
+.background{
+    background:url('/static/images/background-img.svg');
+    background-size:cover;
+    background-repeat: repeat-y;
+}
+.form-custom{
+    background-color: var(--color-white);
+    border-radius: 15px;
+}
+.navbar{
+    
+    background-color: var(--color-oxford_blue);
+}
+.login-container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25%;
+    padding:1.5rem 1rem;
+}
+#nav-toggle{
+     display: none;   
+}
+
+/* application form css */
+.form-container{
+        width: 50%;
+    }
+    
+
+@media screen and (max-width: 576px) {
+    .login-container{
+    position: absolute;
+    top:50%;
+    left: 50%;
+    width: 80%;
+    }
+    #nav-toggle{
+        
+    }
+}
+@media screen and (max-width: 768px) {
+    .login-container{
+    position: absolute;
+    top:50%;
+    left: 50%;
+    width: 80%;
+    
+    }
+    .form-container{
+        width: 80%;
+       
+    }
+    
+}

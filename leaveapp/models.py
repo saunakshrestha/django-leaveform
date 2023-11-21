@@ -27,3 +27,4 @@ class LeaveRequest(models.Model):
         self.name = f"{self.user.first_name} {self.user.last_name}"
         self.signature_of_applicant = self.name
         super().save(*args,**kwargs)
+

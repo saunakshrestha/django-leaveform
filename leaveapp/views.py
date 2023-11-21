@@ -7,11 +7,14 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='login_user')
 def leave_request_submit(request):
+    
+
     post_form = LeaveRequestForm()
     if request.method == 'POST':
         post_form = LeaveRequestForm(request.POST)
         if post_form.is_valid():
             post_form.instance.user = request.user
+            
             post_form.save()
             messages.success(request, "Your application submitted sucesfully.")
             return redirect('leave_request')
@@ -23,6 +26,7 @@ def leave_request_submit(request):
 
     context = {
         'post_form': post_form,
+        
     }
 
     return render(request, 'form.html', context)
