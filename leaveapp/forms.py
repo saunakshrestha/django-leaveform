@@ -39,3 +39,20 @@ class LoginForm(forms.Form):
         password = cleaned_data.get("password")
         return cleaned_data
 
+class LeaveRequestEditForm(forms.ModelForm):
+    class Meta:
+        model = LeaveRequest
+        fields = [
+            'department',
+            'designation',
+            'leave_from',
+            'leave_to',
+            'purpose_of_leave',
+        ]
+        designation = forms.CharField(max_length=30)
+        department = forms.ChoiceField(
+            choices=LeaveRequest.DEPARTMENT_CHOICES
+        )
+        leave_from = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
+        leave_to = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
+        purpose_of_leave = forms.CharField(max_length=50)

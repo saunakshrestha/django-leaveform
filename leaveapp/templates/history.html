@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock navbar %}
+
+{% block history %}
+<div class="container form-custom mt-5 shadow-lg p-0 form-container w-100">
+    {% comment %} messages errors shown {% endcomment %}
+{% if messages %}
+    <div class="text-center messages">
+    {% for message in messages %}
+        <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-warning{% endif %}" role="alert">
+        <div class="list-group_item list-group-warning">{{ message }}</div>
+        </div>
+    {% endfor %}
+    </div>
+{% endif %}
+{% comment %} form container {% endcomment %}
+<table class="table table-success table-striped">
+    <thead>
+        <tr>
+            <td class="d-none d-md-block">Leave From</td>
+            <td>Leave To</td>
+            <td class="d-none d-md-block">Total Leave Days</td>
+            <td>Approved By Supervisor</td>
+            <td>Approved By HR</td>
+        </tr>
+        
+    </thead>
+    <tbody>
+        {% for leave_request in leave_request_data %}
+        <tr> 
+            
+            <td class="d-none d-md-block">{{leave_request.leave_from}}</td>
+            <td><a href='{% url 'edit_form' leave_request.id %}'>{{leave_request.leave_to}}</a></td>
+            <td class="d-none d-md-block">{{leave_request.total_leave_days}}</td>
+            <td>{{leave_request.approved_by_supervisor}}</td>
+            <td>{{leave_request.approved_by_hr}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    
+</table>
+</div>
+{% endblock history %}

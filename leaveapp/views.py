@@ -1,14 +1,13 @@
-from django.shortcuts import render, redirect
-from leaveapp.forms import LeaveRequestForm,LoginForm
+from django.shortcuts import render, redirect, get_object_or_404
+from leaveapp.forms import LeaveRequestForm,LoginForm,LeaveRequestEditForm
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from leaveapp.models import LeaveRequest
 
 @login_required(login_url='login_user')
 def leave_request_submit(request):
-    
-
     post_form = LeaveRequestForm()
     if request.method == 'POST':
         post_form = LeaveRequestForm(request.POST)
@@ -54,3 +53,39 @@ def logout_user(request):
     logout(request)
     return redirect('login_user')
 
+@login_required(login_url='login_user')
+def history(request):
+    user = request.user
+    leave_request_data = LeaveRequest.objects.filter(user=user)
+    context = {
+        'leave_request_data':leave_request_data,
+    }
+    return render(request,'history.html',context)
+
+@login_required(login_url='login_user')
+def edit_leave_request(request,id):
+    leave_request = get_object_or_404(LeaveRequest,id=id)
+    edit_form = LeaveRequestEditForm(instance=leave_request)
+    if request.method == 'POST':
+        edit_form = LeaveRequestEditForm(request.POST,instance=leave_request)
+        if edit_form.is_valid():
+            edit_form.save()
+            messages.success(request,"The form has been successfully updated.")
+            return redirect('history')
+        else:
+            messages.error(request,"Please! correct the errors:")
+    else:
+        edit_form = LeaveRequestEditForm(instance=leave_request)
+    
+    context = {
+        'edit_form' : edit_form,
+        'leave_request':leave_request,
+    }
+    return render(request,'edit_form.html',context)
+
+
+def delete_leave_request(request,id):
+    leave_request = get_object_or_404(LeaveRequest,id=id)
+    leave_request.delete()
+    messages.error(request,"The form has been deleted.")
+    return redirect('history')

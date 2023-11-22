@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock navbar %}
+
+{% block edit_form %}
+{% load crispy_forms_tags %}
+
+<div class="container form-custom mt-5 shadow-lg p-5 form-container">
+    <h3 class="text-center  ">Edit Leave Application Form</h3>
+
+    <form method="post" class="d-flex flex-column align-items-center">
+        {% csrf_token %}
+        <div class=" w-100">
+             {{ edit_form | crispy }}
+        </div>
+       <div class=>
+            <button class="btn btn-primary my-2 " name='edit'>Edit</button>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Delete</button>
+       </div>
+        
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure want to delete form applied on {{leave_request.leave_applied_date}}?
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a href="{% url 'delete_form' leave_request.id %}" class="btn btn-primary">Delete</a>
+            </div>
+
+            </div>
+        </div>
+        </div>
+                      
+        
+    </form>
+</div>
+{% endblock edit_form %}
