@@ -1,6 +1,7 @@
 from django import forms
 from leaveapp.models import LeaveRequest
 from datetime import date
+from django.contrib.auth.models import User
 
 class LeaveRequestForm(forms.ModelForm):
     class Meta:
@@ -38,6 +39,31 @@ class LoginForm(forms.Form):
         username = cleaned_data.get("username")
         password = cleaned_data.get("password")
         return cleaned_data
+
+class RegisterForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'first_name',
+            'last_name',
+            'username',
+            'email',
+            'password',
+        ]
+    password = forms.CharField(widget=forms.PasswordInput, max_length=128)
+    def clean(self):
+        cleaned_data=super().clean()
+        first_name = cleaned_data.get('first_name')
+        last_name = cleaned_data.get('last_name')
+        username = cleaned_data.get('username')
+        email = cleaned_data.get('email')
+        password = cleaned_data.get('password')
+        if User.objects.filter(email=email).exists():
+            self.add_error('email',"Email already exists.")
+        return cleaned_data
+
+
+
 
 class LeaveRequestEditForm(forms.ModelForm):
     class Meta:
