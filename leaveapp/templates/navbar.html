@@ -17,18 +17,16 @@
   <div class="me-5" id="navbarTogglerDemo02">
     <ul class="navbar-nav me-5 mt-2 mt-lg-0 ">
       <li class="nav-item me-4 ">
-        <a class="nav-link text-light" href="{% url 'history' %}">History</a>
+        <a class="nav-link text-light" href="{% url 'history' %}">History <i class="bi bi-clock-history"></i></a>
       </li>
 
       {% if request.user.is_authenticated %}
         <div class="dropdown show">
           <a class="nav-link text-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{request.user.username}}
+            {{request.user.username}} <i class="bi bi-person-circle"></i>
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="{% url 'logout_user' %}">Logout <i class="bi bi-box-arrow-in-left"></i></a>
           </div>
         </div>
       {% else %}
@@ -37,9 +35,8 @@
             Login/Register
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="{% url 'login_user' %}">Login</a>
-            <a class="dropdown-item" href="{% url 'register_user' %}">Register</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="{% url 'login_user' %}">Login <i class="bi bi-box-arrow-in-right"></i></a>
+            <a class="dropdown-item" href="{% url 'register_user' %}">Register <i class="bi bi-pencil-square"></i></a>
           </div>
         </div>
       {% endif %}

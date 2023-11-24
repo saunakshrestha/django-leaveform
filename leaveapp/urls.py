@@ -10,5 +10,4 @@ urlpatterns = [
     path('history/',history,name='history'),
     path('edit_form/<int:id>/',edit_leave_request,name='edit_form'),
     path('delete_form/<int:id>/',delete_leave_request,name='delete_form')
-
 ]

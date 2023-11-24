@@ -4,7 +4,9 @@
 {% endblock navbar %}
 
 {% block history %}
-<div class="container form-custom mt-5 shadow-lg p-0 form-container w-100">
+
+
+<div class="container form-custom mt-1 position-relative  p-0 form-container w-100">
     {% comment %} messages errors shown {% endcomment %}
 {% if messages %}
     <div class="text-center messages">
@@ -16,30 +18,39 @@
     </div>
 {% endif %}
 {% comment %} form container {% endcomment %}
-<table class="table table-success table-striped">
+<a href="{% url 'leave_request' %}" class="btn btn-primary mt-1">Add <i class="bi bi-plus-square"></i></a>
+<div class=" table-responsive">
+<table class="table table-success table-hover shadow-lg ">
     <thead>
         <tr>
+            <td>S.N.</td>
             <td class="d-none d-md-block">Leave From</td>
-            <td>Leave To</td>
-            <td class="d-none d-md-block">Total Leave Days</td>
+            <td class="">Leave To</td>
+            <td class="d-none d-md-block">Days</td>
             <td>Approved By Supervisor</td>
             <td>Approved By HR</td>
+            <td>Action</td>
         </tr>
-        
     </thead>
     <tbody>
         {% for leave_request in leave_request_data %}
-        <tr> 
+        <tr > 
+            <td class="">{{forloop.counter}}</td>
+            <td class=" d-none d-md-block">{{leave_request.leave_from}}</td>
+            <td class="">{{leave_request.leave_to}}</td>
+            <td class=" d-none d-md-block">{{leave_request.total_leave_days}}</td>
+            <td class="">{{leave_request.approved_by_supervisor}}</td>
+            <td class="">{{leave_request.approved_by_hr}}</td>
+            <td class="d-flex justify-content-around">
+                <a class="" href="{% url 'edit_form' leave_request.id %}"><i class="bi bi-pencil-square"></i></a>
+                <a class=" " href="{% url 'edit_form' leave_request.id %}"><i class="bi bi-trash3"></i></a>
+            </td>
             
-            <td class="d-none d-md-block">{{leave_request.leave_from}}</td>
-            <td><a href='{% url 'edit_form' leave_request.id %}'>{{leave_request.leave_to}}</a></td>
-            <td class="d-none d-md-block">{{leave_request.total_leave_days}}</td>
-            <td>{{leave_request.approved_by_supervisor}}</td>
-            <td>{{leave_request.approved_by_hr}}</td>
         </tr>
         {% endfor %}
     </tbody>
     
 </table>
+</div>
 </div>
 {% endblock history %}

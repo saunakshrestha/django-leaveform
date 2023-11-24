@@ -6,8 +6,8 @@
 {% load crispy_forms_tags %}
 
 {% comment %} form container {% endcomment %}
-<div class="form-custom shadow-lg login-container ">
-    <h3 class="text-center mb-2 ">Login</h3>
+<div class="form-custom shadow-lg login-container d-flex flex-column align-items-center">
+    <h3 class="text-center mb-2">Login <i class="bi bi-box-arrow-in-right"></i></h3>
     {% comment %} messages errors shown {% endcomment %}
     {% if messages %}
         <div class="text-center messages d-flex align-items-center justify-content-center ">
@@ -18,14 +18,15 @@
         {% endfor %}
         </div>
     {% endif %}
-    <form method="post" class="d-flex flex-column ">
+    <form method="post" class="d-flex flex-column  w-100">
 
         {% csrf_token %}
-        <div class='d-flex flex-column'>
+      
             {{ login_form|crispy }}
-        </div>
+      
         
-    <button class="btn btn-primary mt-2">Submit</button>
+    <button class="btn btn-primary mt-2 w-auto ">Submit</button>
+    <a href="{% url 'register_user' %}" class="btn btn-primary mt-2">Register New Account</a>
     </form>
 </div>
 {% endblock form %}

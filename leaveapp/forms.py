@@ -51,6 +51,8 @@ class RegisterForm(forms.ModelForm):
             'password',
         ]
     password = forms.CharField(widget=forms.PasswordInput, max_length=128)
+
+
     def clean(self):
         cleaned_data=super().clean()
         first_name = cleaned_data.get('first_name')

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.models import User
 from leaveapp.models import LeaveRequest
 # Register your models here.
 
@@ -13,3 +14,6 @@ class LeaveRequestAdmin(admin.ModelAdmin):
         'approved_by_supervisor',
     ]
     readonly_fields = ["total_leave_days","signature_of_applicant","leave_applied_date","name"]
+
+
+

@@ -31,7 +31,6 @@ def leave_request_submit(request):
     return render(request, 'form.html', context)
 
 def login_user(request):
-    
     if request.method == 'GET':
         login_form = LoginForm()
         return render(request,'login.html',{'login_form':login_form})
@@ -45,9 +44,8 @@ def login_user(request):
             user = authenticate(request=request,username=username,password=password)
             if user:
                 login(request,user)
-                messages.success(request,f"{username.title()},welcome back!")
-                return redirect('leave_request')
-        messages.error(request,f"Invalid Password")
+                return redirect('history')
+        messages.error(request,"Invalid Credentials")
         return render(request,'login.html',{'login_form':login_form})
     
 def logout_user(request):
@@ -73,9 +71,10 @@ def register_user(request):
                 last_name = last_name,
                 username = username,
                 email = email,
-                password = password
+                password = password,
             )
             user.set_password(password)
+            user.is_active = False
             user.save()
             messages.success(request,"Your details are under verified. You'll be notified through email.")
             return redirect('register_user')
@@ -121,3 +120,4 @@ def delete_leave_request(request,id):
     leave_request.delete()
     messages.error(request,"The form has been deleted.")
     return redirect('history')
+
