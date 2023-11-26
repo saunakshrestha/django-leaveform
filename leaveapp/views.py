@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from leaveapp.forms import LeaveRequestForm,LoginForm,LeaveRequestEditForm,RegisterForm
+from leaveapp.forms import LeaveRequestForm,LoginForm,RegisterForm
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
@@ -54,12 +54,14 @@ def logout_user(request):
 
 
 def register_user(request):
+    context={}
     if request.method == 'GET':
         register_form = RegisterForm()
         return render(request,'register.html',{'register_form':register_form})
     elif request.method == 'POST':
         register_form = RegisterForm(request.POST)
         if register_form.is_valid():
+            context['sweetalert']="Sweet"
             first_name = request.POST.get('first_name')
             last_name = request.POST.get('last_name')
             username = request.POST.get('username')
@@ -80,14 +82,14 @@ def register_user(request):
             return redirect('register_user')
         else:
             messages.error(request,"Invalid credentials!")
-
-    return render(request,'register.html',{'register_form':register_form})
+    context['register_form']=register_form
+    return render(request,'register.html',context)
 
 
 @login_required(login_url='login_user')
 def history(request):
     user = request.user
-    leave_request_data = LeaveRequest.objects.filter(user=user)
+    leave_request_data = LeaveRequest.objects.filter(user=user).order_by('-id')
     context = {
         'leave_request_data':leave_request_data,
     }
@@ -96,9 +98,9 @@ def history(request):
 @login_required(login_url='login_user')
 def edit_leave_request(request,id):
     leave_request = get_object_or_404(LeaveRequest,id=id)
-    edit_form = LeaveRequestEditForm(instance=leave_request)
+    edit_form = LeaveRequestForm(instance=leave_request)
     if request.method == 'POST':
-        edit_form = LeaveRequestEditForm(request.POST,instance=leave_request)
+        edit_form = LeaveRequestForm(request.POST,instance=leave_request)
         if edit_form.is_valid():
             edit_form.save()
             messages.success(request,"The form has been successfully updated.")
@@ -106,7 +108,7 @@ def edit_leave_request(request,id):
         else:
             messages.error(request,"Please! correct the errors:")
     else:
-        edit_form = LeaveRequestEditForm(instance=leave_request)
+        edit_form = LeaveRequestForm(instance=leave_request)
     
     context = {
         'edit_form' : edit_form,

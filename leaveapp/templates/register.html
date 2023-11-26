@@ -2,7 +2,7 @@
 {% block navbar %}
 {% include 'navbar.html' %}
 {% endblock navbar %}
-{% block form %}
+{% block content %}
 {% load crispy_forms_tags %}
 
 <div class="container form-custom mt-5 shadow-lg p-5 form-container">
@@ -25,9 +25,33 @@
     <button id="submit-btn" class="btn btn-primary mt-2">Submit</button>
     <a href="{% url 'login_user' %}" class="btn btn-primary mt-2">Login</a>
 </form>
+<script>
+    const sweetalert = {{ sweetalert|safe }};
     
+    document.getElementById('register-form').addEventListener('submit',function(){
+        const vform = document.getElementById('register-form');
+
+        // Check the validation status of the form
+        if (vform.checkValidity()) {
+            // Form is valid, show the SweetAlert
+     
+                Swal.fire({
+                    title: "Good job!",
+                    text: "You clicked the button!",
+                    icon: "success"
+                });
+   
+        } else {
+            // Form is not valid, prevent default form submission
+            event.preventDefault();
+            
+            // Optionally, you can add logic to handle validation error (e.g., display error messages)
+        }
+        
+    })
+</script>
 </div>
-{% endblock form %}
+{% endblock content %}
 
 
 {% comment %} register form alternative using bootstrap {% endcomment %}

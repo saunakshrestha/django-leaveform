@@ -2,7 +2,7 @@
 {% block navbar %}
 {% include 'navbar.html' %}
 {% endblock navbar %}
-{% block form %}
+{% block content %}
 {% load crispy_forms_tags %}
 
 {% comment %} form container {% endcomment %}
@@ -29,4 +29,4 @@
     <a href="{% url 'register_user' %}" class="btn btn-primary mt-2">Register New Account</a>
     </form>
 </div>
-{% endblock form %}
+{% endblock content %}
