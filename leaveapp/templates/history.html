@@ -5,75 +5,78 @@
 
 {% block content %}
 
+<div class=" d-flex flex-column container form-custom p-0">
+    <a href="{% url 'leave_request' %}" class="align-self-end btn btn-primary mt-1 mr-5">Add <i class="bi bi-plus-square"></i></a>
 
-<div class="container form-custom mt-1 position-relative  p-0 form-container w-100">
-    {% comment %} messages errors shown {% endcomment %}
-{% if messages %}
-    <div class="text-center messages">
-    {% for message in messages %}
-        <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-warning{% endif %}" role="alert">
-        <div class="list-group_item list-group-warning">{{ message }}</div>
-        </div>
-    {% endfor %}
-    </div>
-{% endif %}
-{% comment %} form container {% endcomment %}
-<a href="{% url 'leave_request' %}" class="btn btn-primary mt-1">Add <i class="bi bi-plus-square"></i></a>
-<div class=" table-responsive">
-<table class="table table-success table-hover shadow-lg ">
-    <thead>
-        <tr>
-            <td>S.N.</td>
-            <td class="d-none d-md-block">Leave From</td>
-            <td class="">Leave To</td>
-            <td class="d-none d-md-block">Days</td>
-            <td>Approved By Supervisor</td>
-            <td>Approved By HR</td>
-            <td>Action</td>
-        </tr>
-    </thead>
-    <tbody>
-        {% for leave_request in leave_request_data %}
-        <tr> 
-            <td class="">{{forloop.counter}}</td>
-            <td class=" d-none d-md-block">{{leave_request.leave_from}}</td>
-            <td class="">{{leave_request.leave_to}}</td>
-            <td class=" d-none d-md-block">{{leave_request.total_leave_days}}</td>
-            <td class="">{{leave_request.approved_by_supervisor}}</td>
-            <td class="">{{leave_request.approved_by_hr}}</td>
-            <td class="d-flex justify-content-around">
-                <a class="" href="{% url 'edit_form' leave_request.id %}"><i class="bi bi-pencil-square"></i></a>
-                  <!-- Button trigger modal -->
-                <a href='{% url 'edit_form' leave_request.id %}' data-toggle="modal" data-target="#exampleModal"><i class="bi bi-trash3"></i></a>
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Are you sure want to delete form applied on {{leave_request.leave_applied_date}}?
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <a href="{% url 'delete_form' leave_request.id %}" class="btn btn-primary">Delete</a>
-                    </div>
-
-                    </div>
-                    </div>
-                </div> 
-                </td>
-            
-        </tr>
+    <div class="container mt-1 p-0 form-container w-100">
+        {% comment %} messages errors shown {% endcomment %}
+    {% if messages %}
+        <div class="text-center messages">
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-warning{% endif %}" role="alert">
+            <div class="list-group_item list-group-warning">{{ message }}</div>
+            </div>
         {% endfor %}
-    </tbody>
+        </div>
+    {% endif %}
+    {% comment %} form container {% endcomment %}
     
-</table>
-</div>
+    <div class=" table-responsive">
+    <table class="table table-success table-hover shadow-lg ">
+        <thead>
+            <tr>
+                <td>S.N.</td>
+                <td class="d-none d-md-block">Leave From</td>
+                <td class="">Leave To</td>
+                <td class="d-none d-md-block">Days</td>
+                <td>Approved By Supervisor</td>
+                <td>Approved By HR</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for leave_request in leave_request_data %}
+            <tr> 
+                <td class="">{{forloop.counter}}</td>
+                <td class=" d-none d-md-block">{{leave_request.leave_from}}</td>
+                <td class="">{{leave_request.leave_to}}</td>
+                <td class=" d-none d-md-block">{{leave_request.total_leave_days}}</td>
+                <td class="">{{leave_request.approved_by_supervisor}}</td>
+                <td class="">{{leave_request.approved_by_hr}}</td>
+                <td class="d-flex justify-content-around">
+                    <a class="" href="{% url 'edit_form' leave_request.id %}"><i class="bi bi-pencil-square"></i></a>
+                    <!-- Button trigger modal -->
+                    <a href='{% url 'edit_form' leave_request.id %}' data-toggle="modal" data-target="#exampleModal"><i class="bi bi-trash3"></i></a>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure want to delete form applied on {{leave_request.leave_applied_date}}?
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <a href="{% url 'delete_form' leave_request.id %}" class="btn btn-primary">Delete</a>
+                        </div>
+
+                        </div>
+                        </div>
+                    </div> 
+                    </td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+        
+    </table>
+    </div>
+    </div>
 </div>
 {% endblock content %}
