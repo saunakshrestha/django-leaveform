@@ -13,7 +13,7 @@ class LeaveRequest(models.Model):
         ('sick_leave','Sick Leave'),
         ('bereavement_leave','Bereavement Leave'),
         ('maternity_leave','Maternity Leave'),
-        ('paternity_leave','Paternity Holiday'),
+        ('paternity_leave','Paternity Leave'),
         ('others','Others'),
     ]
     name = models.CharField(max_length=50)
@@ -44,6 +44,6 @@ class LeaveRequest(models.Model):
             'sick_leave':'Sick Leave',
             'bereavement_leave':'Bereavement Leave',
             'maternity_leave':'Maternity Leave',
-            'paternity_leave':'Paternity Holiday',
+            'paternity_leave':'Paternity Leave',
             'others':'Others',
         }.get(self.purpose_of_leave,'')

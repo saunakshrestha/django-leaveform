@@ -8,7 +8,7 @@ from leaveapp.models import LeaveRequest
 
 @login_required(login_url='login_user')
 def leave_request_submit(request):
-    post_form = LeaveRequestForm(request.POST or None)
+    post_form = LeaveRequestForm()
     if request.method == 'POST':
         post_form = LeaveRequestForm(request.POST)
         if post_form.is_valid():
@@ -16,13 +16,10 @@ def leave_request_submit(request):
             new_post.user = request.user
             new_post.save()
             messages.success(request, "Your application submitted successfully.")
-            return redirect('history')
-
+            return redirect('dashboard')
     context = {
         'post_form': post_form,
-        
     }
-
     return render(request, 'form.html', context)
 
 def login_user(request):
@@ -39,7 +36,7 @@ def login_user(request):
             user = authenticate(request=request,username=username,password=password)
             if user:
                 login(request,user)
-                return redirect('history')
+                return redirect('dashboard')
         messages.error(request,"Invalid Credentials")
         return render(request,'login.html',{'login_form':login_form})
     
@@ -82,19 +79,17 @@ def register_user(request):
 
 
 @login_required(login_url='login_user')
-def history(request):
+def dashboard(request):
     user = request.user
     if user.is_staff or user.is_superuser: 
         leave_request_data = LeaveRequest.objects.all().order_by('-id')
-        print("isstaff")
     else:
         leave_request_data = LeaveRequest.objects.filter(user=user).order_by('-id')
-        print("user opnly")
 
     context = {
         'leave_request_data':leave_request_data,
     }
-    return render(request,'history.html',context)
+    return render(request,'dashboard.html',context)
 
 @login_required(login_url='login_user')
 def edit_leave_request(request,id):
@@ -105,7 +100,7 @@ def edit_leave_request(request,id):
         if edit_form.is_valid():
             edit_form.save()
             messages.success(request,"The form has been successfully updated.")
-            return redirect('history')
+            return redirect('dashboard')
         else:
             messages.error(request,"Please! correct the errors:")
     else:
@@ -122,5 +117,5 @@ def delete_leave_request(request,id):
     leave_request = get_object_or_404(LeaveRequest,id=id)
     leave_request.delete()
     messages.error(request,"The form has been deleted.")
-    return redirect('history')
+    return redirect('dashboard')
 

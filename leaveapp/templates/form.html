@@ -22,7 +22,7 @@
     {% csrf_token %}
     <div class="form-group">
     <label for="name">Name</label>
-    <input type="text" class="form-control" id="name" placeholder="{{request.user.username}} "disabled>
+    <input type="text" class="form-control" id="name" placeholder="{{request.user.first_name}} {{request.user.last_name}} "disabled>
     </div>
     {{ post_form|crispy }}
     <button class="btn btn-primary mt-2">Submit</button>
