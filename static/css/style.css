@@ -45,7 +45,8 @@
 .form-container{
         width: 50%;
     }
-    
+
+    /* table */
 
 @media screen and (max-width: 768px) {
     .login-container{

@@ -37,4 +37,13 @@ class LeaveRequest(models.Model):
         self.name = f"{self.user.first_name} {self.user.last_name}"
         self.signature_of_applicant = self.name
         super().save(*args,**kwargs)
-   
+
+    def get_display_purpose_of_leave(self):
+        return{
+            'annual_leave':'Annual Leave',
+            'sick_leave':'Sick Leave',
+            'bereavement_leave':'Bereavement Leave',
+            'maternity_leave':'Maternity Leave',
+            'paternity_leave':'Paternity Holiday',
+            'others':'Others',
+        }.get(self.purpose_of_leave,'')

@@ -21,30 +21,54 @@
     {% endif %}
     {% comment %} form container {% endcomment %}
     
-    <div class=" table-responsive">
-    <table class="table table-success table-hover shadow-lg ">
+    <div class=" table-responsive ">
+    <table class="table table-success table-hover text-center ">
         <thead>
             <tr>
-                <td>S.N.</td>
-                <td class="d-none d-md-block">Leave From</td>
-                <td class="">Leave To</td>
-                <td class="d-none d-md-block">Days</td>
-                <td>Approved By Supervisor</td>
-                <td>Approved By HR</td>
-                <td>Action</td>
+                <td class="">S.N.</td>
+                <td class="col-1">Name</td>
+                <td class="col-1">Department</td>
+                <td class="col-1">Designation</td>
+                <td class="col-1">From</td>
+                <td class="col-1">To</td>
+                <td class="col-1">Days</td>
+                <td class="col-1">Leave Type</td>
+                <td class="col-1">Description</td>
+                <td class="col-1">Applied</td>
+                <td class="col-1"><i class="bi bi-check2-circle"></i> Supervisor</td>
+                <td class="col-1"><i class="bi bi-check2-circle"></i> HR</td>
+                <td class="col-1">Action</td>
+                
             </tr>
         </thead>
         <tbody>
             {% for leave_request in leave_request_data %}
             <tr> 
                 <td class="">{{forloop.counter}}</td>
-                <td class=" d-none d-md-block">{{leave_request.leave_from}}</td>
+                <td>{{leave_request.name}}</td>
+                <td class="">{{leave_request.department|capfirst}}</td>
+                <td class="">{{leave_request.designation|capfirst}}</td>
+                
+                <td class="">{{leave_request.leave_from}}</td>
                 <td class="">{{leave_request.leave_to}}</td>
-                <td class=" d-none d-md-block">{{leave_request.total_leave_days}}</td>
-                <td class="">{{leave_request.approved_by_supervisor}}</td>
-                <td class="">{{leave_request.approved_by_hr}}</td>
-                <td class="d-flex justify-content-around">
-                    <a class="" href="{% url 'edit_form' leave_request.id %}"><i class="bi bi-pencil-square"></i></a>
+                <td class="">{{leave_request.total_leave_days}}</td>
+                <td class="">{{leave_request.get_display_purpose_of_leave}}</td>
+                <td class="">{{leave_request.description|capfirst}}</td>
+                <td class="">{{leave_request.leave_applied_date}}</td>
+                <td class="">
+                    {% if leave_request.approved_by_supervisor %}
+                        <i class="bi bi-check2-circle"></i>
+                    {% else %}
+                        <i class="bi bi-ban"></i>
+                    {% endif %}</td>
+                <td class="">
+                    {% if leave_request.approved_by_hr %}
+                        <i class="bi bi-check2-circle"></i>
+                    {% else %}
+                        <i class="bi bi-ban"></i>
+                    {% endif %}</td></td>
+                <td class="">
+                    <a class="pe-1" href="{% url 'edit_form' leave_request.id %}"><i class="bi bi-pencil-square"></i></a>
                     <!-- Button trigger modal -->
                     <a href='{% url 'edit_form' leave_request.id %}' data-toggle="modal" data-target="#exampleModal"><i class="bi bi-trash3"></i></a>
                     <!-- Modal -->

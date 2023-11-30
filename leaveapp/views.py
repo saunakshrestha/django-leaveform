@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from leaveapp.forms import LeaveRequestForm,LoginForm,RegisterForm
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,AbstractUser,PermissionsMixin
 from django.contrib.auth.decorators import login_required
 from leaveapp.models import LeaveRequest
 
@@ -12,9 +12,9 @@ def leave_request_submit(request):
     if request.method == 'POST':
         post_form = LeaveRequestForm(request.POST)
         if post_form.is_valid():
-            post_form.instance.user = request.user
-            
-            post_form.save()
+            new_post = post_form.save(commit=False)
+            new_post.user = request.user
+            new_post.save()
             messages.success(request, "Your application submitted successfully.")
             return redirect('history')
 
@@ -84,7 +84,13 @@ def register_user(request):
 @login_required(login_url='login_user')
 def history(request):
     user = request.user
-    leave_request_data = LeaveRequest.objects.filter(user=user).order_by('-id')
+    if user.is_staff or user.is_superuser: 
+        leave_request_data = LeaveRequest.objects.all().order_by('-id')
+        print("isstaff")
+    else:
+        leave_request_data = LeaveRequest.objects.filter(user=user).order_by('-id')
+        print("user opnly")
+
     context = {
         'leave_request_data':leave_request_data,
     }
