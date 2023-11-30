@@ -8,20 +8,15 @@ from leaveapp.models import LeaveRequest
 
 @login_required(login_url='login_user')
 def leave_request_submit(request):
-    post_form = LeaveRequestForm()
+    post_form = LeaveRequestForm(request.POST or None)
     if request.method == 'POST':
         post_form = LeaveRequestForm(request.POST)
         if post_form.is_valid():
             post_form.instance.user = request.user
             
             post_form.save()
-            messages.success(request, "Your application submitted sucesfully.")
-            return redirect('leave_request')
-        else:
-            errors = post_form.errors.get('__all__')
-            for error in errors:
-                messages.error(request, error)
-            post_form = LeaveRequestForm()        
+            messages.success(request, "Your application submitted successfully.")
+            return redirect('history')
 
     context = {
         'post_form': post_form,
@@ -116,7 +111,7 @@ def edit_leave_request(request,id):
     }
     return render(request,'edit_form.html',context)
 
-
+@login_required(login_url='login_user')
 def delete_leave_request(request,id):
     leave_request = get_object_or_404(LeaveRequest,id=id)
     leave_request.delete()

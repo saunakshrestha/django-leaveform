@@ -3,9 +3,18 @@ from django.contrib.auth.models import User
 # Create your models here.
 class LeaveRequest(models.Model):
     DEPARTMENT_CHOICES = [
-        ('IT','Information Technology'),
-        ('HR','Human Resource'),
-        ('BS','Business'),
+        ('technology','Information Technology'),
+        ('finance','Finance'),
+        ('support','Support'),
+        ('sales','Sales'),
+    ]
+    PURPOSE_OF_LEAVE_CHOICES = [
+        ('annual_leave','Annual Leave'),
+        ('sick_leave','Sick Leave'),
+        ('bereavement_leave','Bereavement Leave'),
+        ('maternity_leave','Maternity Leave'),
+        ('paternity_leave','Paternity Holiday'),
+        ('others','Others'),
     ]
     name = models.CharField(max_length=50)
     designation = models.CharField(max_length=30)
@@ -13,7 +22,8 @@ class LeaveRequest(models.Model):
     leave_from = models.DateField()
     leave_to = models.DateField()
     total_leave_days = models.IntegerField(default=0)
-    purpose_of_leave = models.CharField(max_length=50)
+    purpose_of_leave = models.CharField(max_length=50,choices=PURPOSE_OF_LEAVE_CHOICES)
+    description = models.CharField(max_length=100,blank=True,null=True)
     leave_applied_date = models.DateField(auto_now_add=True)
     signature_of_applicant = models.CharField(max_length=30)
     approved_by_supervisor = models.BooleanField(default=False)
@@ -27,4 +37,4 @@ class LeaveRequest(models.Model):
         self.name = f"{self.user.first_name} {self.user.last_name}"
         self.signature_of_applicant = self.name
         super().save(*args,**kwargs)
-
+   
