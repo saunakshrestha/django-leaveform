@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-*nvhqy9)+^pbb*%3^_0!ykq09p%0=@6+i!&uef_svi5c0t(_13
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'leaveapp',
     'crispy_forms',
     'crispy_bootstrap4',
+    'accounts',
 
 ]
 
@@ -134,3 +135,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = "login_user"
 LOGOUT_REDIRECT_URL = "logout_user"
+
+
+AUTH_USER_MODEL = "accounts.User"

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from leaveapp.forms import LeaveRequestForm,LoginForm,RegisterForm
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.models import User,AbstractUser,PermissionsMixin
+from accounts.models import User
 from django.contrib.auth.decorators import login_required
 from leaveapp.models import LeaveRequest
 
@@ -98,7 +98,7 @@ def edit_leave_request(request,id):
     if request.method == 'POST':
         edit_form = LeaveRequestForm(request.POST,instance=leave_request)
         if edit_form.is_valid():
-            edit_form.save()
+            edit_form.save() 
             messages.success(request,"The form has been successfully updated.")
             return redirect('dashboard')
         else:

@@ -6,7 +6,7 @@ from django.db.models.base import Model
 from django.forms.utils import ErrorList
 from leaveapp.models import LeaveRequest
 from datetime import date
-from django.contrib.auth.models import User
+from accounts.models import User
 
 class LeaveRequestForm(forms.ModelForm):
     class Meta:

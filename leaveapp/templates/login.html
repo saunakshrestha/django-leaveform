@@ -19,12 +19,8 @@
         </div>
     {% endif %}
     <form method="post" class="d-flex flex-column  w-100">
-
         {% csrf_token %}
-      
-            {{ login_form|crispy }}
-      
-        
+        {{ login_form|crispy }}
     <button class="btn btn-primary mt-2 w-auto ">Submit</button>
     <a href="{% url 'register_user' %}" class="btn btn-primary mt-2">Register New Account</a>
     </form>
