@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from leaveapp.forms import LeaveRequestForm,LoginForm,RegisterForm
+from leaveapp.forms import LeaveRequestForm,LoginForm,RegisterForm,LeaveRequestFormSupervisor,LeaveRequestFormHR
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from accounts.models import User
@@ -81,11 +81,12 @@ def register_user(request):
 @login_required(login_url='login_user')
 def dashboard(request):
     user = request.user
+    print(request.user.role)
+
     if user.is_staff or user.is_superuser: 
         leave_request_data = LeaveRequest.objects.all().order_by('-id')
     else:
         leave_request_data = LeaveRequest.objects.filter(user=user).order_by('-id')
-
     context = {
         'leave_request_data':leave_request_data,
     }
@@ -95,6 +96,7 @@ def dashboard(request):
 def edit_leave_request(request,id):
     leave_request = get_object_or_404(LeaveRequest,id=id)
     edit_form = LeaveRequestForm(instance=leave_request)
+    
     if request.method == 'POST':
         edit_form = LeaveRequestForm(request.POST,instance=leave_request)
         if edit_form.is_valid():
@@ -112,10 +114,57 @@ def edit_leave_request(request,id):
     }
     return render(request,'edit_form.html',context)
 
+
+@login_required(login_url='login_user')
+def edit_leave_request_supervisor(request,id):
+    leave_request_super = get_object_or_404(LeaveRequest,id=id)
+    edit_form_super = LeaveRequestFormSupervisor(instance=leave_request_super)
+    
+    if request.method == 'POST':
+        edit_form_super = LeaveRequestFormSupervisor(request.POST,instance=leave_request_super)
+        if edit_form_super.is_valid():
+            edit_form_super.save() 
+            messages.success(request,"The form has been successfully updated.")
+            return redirect('dashboard')
+        else:
+            messages.error(request,"Please! correct the errors:")
+    else:
+        edit_form_super = LeaveRequestFormSupervisor(instance=leave_request_super)
+    
+    context = {
+        'edit_form_super' : edit_form_super,
+        'leave_request_super':leave_request_super,
+    }
+    return render(request,'edit_supervisor.html',context)
+
+
+@login_required(login_url='login_user')
+def edit_leave_request_hr(request,id):
+    leave_request_hr = get_object_or_404(LeaveRequest,id=id)
+    edit_form_hr = LeaveRequestFormHR(instance=leave_request_hr)
+    
+    if request.method == 'POST':
+        edit_form_hr = LeaveRequestFormHR(request.POST,instance=leave_request_hr)
+        if edit_form_hr.is_valid():
+            edit_form_hr.save() 
+            messages.success(request,"The form has been successfully updated.")
+            return redirect('dashboard')
+        else:
+            messages.error(request,"Please! correct the errors:")
+    else:
+        edit_form_hr = LeaveRequestFormHR(instance=leave_request_hr)
+    
+    context = {
+        'edit_form_hr' : edit_form_hr,
+        'leave_request_hr':leave_request_hr,
+    }
+    return render(request,'edit_hr.html',context)
+
 @login_required(login_url='login_user')
 def delete_leave_request(request,id):
     leave_request = get_object_or_404(LeaveRequest,id=id)
     leave_request.delete()
     messages.error(request,"The form has been deleted.")
     return redirect('dashboard')
+
 

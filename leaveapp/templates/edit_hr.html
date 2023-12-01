@@ -7,16 +7,17 @@
 {% load crispy_forms_tags %}
 
 <div class="container form-custom mt-5 shadow-lg p-5 form-container">
-    <h3 class="text-center  ">Edit Leave Application Form</h3>
+    <h3 class="text-center  ">{{request.user.first_name|capfirst}} {{request.user.last_name|capfirst}}'s Leave Application</h3>
 
     <form method="post" class="d-flex flex-column align-items-center">
         {% csrf_token %}
+        
         <div class=" w-100">
-             {{ edit_form | crispy }}
+             {{ edit_form_hr | crispy }}
 
         </div>
        <div>
-            <button class="btn btn-primary my-2 " name='edit'>Edit</button>
+            <button class="btn btn-primary my-2 " name='edit'>Edit by hr</button>
           
        </div>
     </form>

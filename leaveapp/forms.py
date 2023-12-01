@@ -17,7 +17,8 @@ class LeaveRequestForm(forms.ModelForm):
             'leave_from',
             'leave_to',
             'purpose_of_leave',
-            'description'
+            'description',
+
         ]
     designation = forms.CharField(max_length=30)
     department = forms.ChoiceField(
@@ -27,6 +28,7 @@ class LeaveRequestForm(forms.ModelForm):
     leave_to = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}),initial=date.today())
     purpose_of_leave = forms.ChoiceField(choices=LeaveRequest.PURPOSE_OF_LEAVE_CHOICES)
     description = forms.CharField(required=False)
+    approved_by_hr = forms.BooleanField(required=False)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -71,3 +73,49 @@ class RegisterForm(forms.ModelForm):
         if User.objects.filter(email=email).exists():
             self.add_error('email',"Email already exists.")
         return cleaned_data
+    
+
+class LeaveRequestFormSupervisor(forms.ModelForm):
+    class Meta:
+        model = LeaveRequest
+        fields = [
+            'department',
+            'designation',
+            'leave_from',
+            'leave_to',
+            'purpose_of_leave',
+            'description',
+            'approved_by_supervisor',
+
+        ]
+    designation = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    department = forms.ChoiceField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    leave_from = forms.DateField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    leave_to = forms.DateField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    purpose_of_leave = forms.ChoiceField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    description = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    approved_by_supervisor = forms.BooleanField(required=False)
+
+   
+
+class LeaveRequestFormHR(forms.ModelForm):
+    class Meta:
+        model = LeaveRequest
+        fields = [
+            'department',
+            'designation',
+            'leave_from',
+            'leave_to',
+            'purpose_of_leave',
+            'description',
+            'approved_by_hr',
+
+
+        ]
+    designation = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    department = forms.ChoiceField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    leave_from = forms.DateField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    leave_to = forms.DateField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    purpose_of_leave = forms.ChoiceField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    description = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    approved_by_hr = forms.BooleanField(required=False)

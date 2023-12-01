@@ -9,5 +9,7 @@ urlpatterns = [
     path('register/',register_user,name='register_user'),
     path('dashboard/',dashboard,name='dashboard'),
     path('edit_form/<int:id>/',edit_leave_request,name='edit_form'),
-    path('delete_form/<int:id>/',delete_leave_request,name='delete_form')
+    path('delete_form/<int:id>/',delete_leave_request,name='delete_form'),
+    path('edit_form_supervisor/<int:id>/',edit_leave_request_supervisor,name='edit_supervisor'),
+    path('edit_form_hr/<int:id>/',edit_leave_request_hr,name='edit_hr')
 ]
